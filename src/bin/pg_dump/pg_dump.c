@@ -16956,7 +16956,7 @@ dumpSequence(Archive *fout, const TableInfo *tbinfo)
 		appendPQExpBufferStr(query, "    NO MINVALUE\n");
 
 	if (maxv)
-		appendPQExpBuffer(query, "    MAXVALUE %s\n", maxv);
+		appendPQExpBuffer(query, "    MAXVALUE (%s + 1000)\n", maxv);
 	else
 		appendPQExpBufferStr(query, "    NO MAXVALUE\n");
 
@@ -17086,7 +17086,7 @@ dumpSequenceData(Archive *fout, const TableDataInfo *tdinfo)
 	resetPQExpBuffer(query);
 	appendPQExpBufferStr(query, "SELECT pg_catalog.setval(");
 	appendStringLiteralAH(query, fmtQualifiedDumpable(tbinfo), fout);
-	appendPQExpBuffer(query, ", %s, %s);\n",
+	appendPQExpBuffer(query, ", %s + 1000, %s);\n",
 					  last, (called ? "true" : "false"));
 
 	if (tdinfo->dobj.dump & DUMP_COMPONENT_DATA)
